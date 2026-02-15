@@ -20,7 +20,7 @@ class Unit{
 		void newTurn();
 		int attack(Unit &);
 		int beAttacked(int);
-		int heal();	
+		int heal();
 		void guard();
 		bool isDead();	
 };
@@ -63,6 +63,38 @@ void Unit::newTurn(){
 	guard_on = false;
 }
 
+
+bool Unit::isDead() {
+	return hp <= 0;
+}
+
+void Unit::guard() {
+	guard_on = true;
+}
+
+int Unit::beAttacked(int oppatk) {
+	int damage = 0;
+	if (guard_on) {
+		damage = (oppatk - def) / 3;
+		hp -= damage;
+	} else {
+		damage = (oppatk - def);
+		hp -= damage;
+	}
+	return damage;
+}
+
+int Unit::attack(Unit &ohNo) {
+	return ohNo.beAttacked(atk);
+}
+
+int Unit::heal() {
+	int temp = rand() % 21 + 10;
+	int currHp = hp;
+	hp += temp;
+	if (hp > hpmax) hp = hpmax;
+	return hp - currHp;
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////
